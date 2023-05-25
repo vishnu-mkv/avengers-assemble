@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Space Stone",
+    "color": "Blue",
+    "power": "Allows teleportation and manipulation of space",
+    "owner": "The Tesseract",
+    "location": {
+      "name": "Odin's Vault",
+      "latitude": 38.8977,
+      "longitude": -77.0365
+    },
+    "image": "/images/s1.png"
+  },
+  {
+    "name": "Mind Stone",
+    "color": "Yellow",
+    "power": "Enhances mental abilities and grants control over minds",
+    "owner": "Vision",
+    "location": {
+      "name": "Wakanda",
+      "latitude": -1.9439,
+      "longitude": 29.8739
+    },
+    "image": "/images/s2.png"
+  },
+  {
+    "name": "Reality Stone",
+    "color": "Red",
+    "power": "Alters reality and can create illusions",
+    "owner": "Malekith",
+    "location": {
+      "name": "Knowhere",
+      "latitude": 32.7157,
+      "longitude": -117.1611
+    },
+    "image": "/images/s3.png"
+  },
+  {
+    "name": "Power Stone",
+    "color": "Purple",
+    "power": "Provides immense power and energy manipulation",
+    "owner": "Nova Corps",
+    "location": {
+      "name": "Morag",
+      "latitude": -14.6606,
+      "longitude": -75.5682
+    },
+    "image": "/images/s4.png"
+  },
+  {
+    "name": "Time Stone",
+    "color": "Green",
+    "power": "Controls time and allows time travel",
+    "owner": "Doctor Strange",
+    "location": {
+      "name": "Kamar-Taj",
+      "latitude": 28.6139,
+      "longitude": 77.209
+    },
+    "image": "/images/s5.png"
+  },
+  {
+    "name": "Soul Stone",
+    "color": "Orange",
+    "power": "Manipulates souls and grants control over life and death",
+    "owner": "Red Skull",
+    "location": {
+      "name": "Vormir",
+      "latitude": -41.1189,
+      "longitude": -71.314
+    },
+    "image": "/images/s6.png"
+  }
+]

@@ -1,0 +1,11 @@
+.leaflet-marker-icon {
+  padding: 0.25em !important;
+  border-radius: 50%;
+  background: #fff;
+}
+
+button {
+  /* padding: 0;
+  display: grid;
+  place-items: center; */
+}
