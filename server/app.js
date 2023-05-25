@@ -102,8 +102,21 @@ wss.on("connection", (ws) => {
 
       clearInterval(clearUpdateInterval);
       moveThanos = false;
+
+      // send disable thanos button message to client
+      ws.send(
+        JSON.stringify({
+          type: "disable_thanos_button",
+        })
+      );
+
       setTimeout(() => {
         moveThanos = true;
+        ws.send(
+          JSON.stringify({
+            type: "enable_thanos_button",
+          })
+        );
         const newLocation = generateRandomCoordinates();
         changeThanosLocation(newLocation.latitude, newLocation.longitude);
         clearUpdateInterval = setInterval(updateCharacterLocations, 3000);

@@ -14,6 +14,8 @@ async function loadData() {
 
   const avengersData = await getAvengers();
 
+  fillAvengersContent(avengersData);
+
   avengersData.forEach((avenger) => {
     plotMarker(
       avenger.location.latitude,
@@ -28,6 +30,14 @@ async function loadData() {
       Object.values(data).forEach((location) => {
         updateLocation(location.latitude, location.longitude, location.name);
       });
+    },
+    disable_thanos_button: () => {
+      const moveThanos = document.getElementById("move-thanos");
+      moveThanos.disabled = true;
+    },
+    enable_thanos_button: () => {
+      const moveThanos = document.getElementById("move-thanos");
+      moveThanos.disabled = false;
     },
   });
 }
@@ -74,56 +84,39 @@ function fillStonesContent(stonesData) {
   });
 }
 
-const overlayManager = {
-  currentlyOpenOverlay: null,
-  overlays: {
-    "move-thanos": {
-      close: () => {
-        const overlay = document.getElementById("stones-popup");
-        overlay.classList.add("hidden");
-      },
-      open: () => {
-        const overlay = document.getElementById("stones-popup");
-        overlay.classList.remove("hidden");
-      },
-      closeBtnId: "close-stones-popup",
-    },
-  },
-  closePopup() {
-    // close #overlay
-    const overlay = document.getElementById("overlay");
-    overlay.classList.add("hidden");
+function fillAvengersContent(avengersData, skipThanos = true) {
+  const avengersContent = document.getElementById("content-avengers-popup");
 
-    // close currently open overlay
-    if (this.currentlyOpenOverlay) {
-      this.overlays[this.currentlyOpenOverlay].close();
-    }
+  avengersData.forEach((avenger) => {
+    if (avenger.name === "Thanos" && skipThanos) return;
+    const avengerElement = document.createElement("div");
+    avengerElement.classList.add(
+      "rounded-md",
+      "items-center",
+      "cursor-pointer",
+      "hover:scale-110",
+      "bg-gray-900",
+      "space-y-1",
+      "transition-all",
+      "w-[200px]"
+    );
+    avengerElement.innerHTML = `
+      <img src="${avenger.thumbnail}" class="rounded-t-md m-auto aspect-square object-cover" alt="${avenger.name}" />
+      <p class="text-base p-1 text-center text-white">${avenger.name}</p>
+    `;
+    avengersContent.appendChild(avengerElement);
 
-    this.currentlyOpenOverlay = null;
-  },
-  openPopup(id) {
-    // open #overlay
-    const overlay = document.getElementById("overlay");
-    overlay.addEventListener("click", () => {
-      this.closePopup();
+    avengerElement.addEventListener("click", () => {
+      myCharacter = avenger.name;
+      updateMarkerClass(myCharacter);
+      zoomToCharacter(myCharacter);
+      overlayManager.closePopup();
     });
-
-    overlay.classList.remove("hidden");
-
-    this.currentlyOpenOverlay = id;
-
-    // open currently open overlay
-    if (this.currentlyOpenOverlay) {
-      this.overlays[this.currentlyOpenOverlay].open();
-    }
-
-    // find close button and bind click event
-    const closeButton = document.getElementById(this.overlays[id].closeBtnId);
-    closeButton.addEventListener("click", () => {
-      this.closePopup();
-    });
-  },
-};
+  });
+}
 
 loadData();
 bindActions();
+
+// open avengers popup
+overlayManager.openPopup("choose-avenger");

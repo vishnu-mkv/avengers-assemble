@@ -21,7 +21,27 @@ function plotMarker(lat, long, src, name) {
   marker.bindPopup(name);
   markers[name] = marker;
 
+  let className = "";
+  console.log(name, myCharacter);
+  if (name === "Thanos") className = "thanos";
+  if (name === myCharacter) className = "my-character";
+  if (className.length > 0) L.DomUtil.addClass(marker._icon, className);
+
   showDangerCircles();
+}
+
+function updateMarkerClass(name, className = "my-character") {
+  const marker = markers[name];
+  if (!marker) return;
+
+  L.DomUtil.addClass(marker._icon, className);
+}
+
+function zoomToCharacter(name) {
+  const marker = markers[name];
+  if (!marker) return;
+
+  map.setView(marker.getLatLng(), 3);
 }
 
 function updateLocation(lat, long, name) {
