@@ -12,10 +12,6 @@ app.use(express.static("public"));
 // Stone data from JSON
 const stonesData = require("./stones.json");
 
-stonesData.forEach((stone) => {
-  stone.image = "http://localhost:3001/" + stone.image;
-});
-
 // Marvel API credentials
 const marvelClient = new MarvelClient({
   publicKey: process.env.MARVEL_PUBLIC_KEY,
@@ -34,28 +30,28 @@ const characterIds = [
   "Iron Man",
   "Captain America",
   "Thanos",
-  // "Thor",
-  // "Hulk",
-  // "Black Widow",
+  "Thor",
+  "Hulk",
+  "Black Widow",
   // "Hawkeye",
   // "Spider-Man",
-  // "Doctor Strange",
+  "Doctor Strange",
   // "Captain Marvel",
-  // "Black Panther",
-  // "Scarlet Witch",
-  // "Vision",
+  "Black Panther",
+  "Scarlet Witch",
+  "Vision",
   // "Falcon",
   // "War Machine",
   // "Ant-Man",
   // "Wasp",
 ];
 
-const characterData = [];
+let characterData = [];
 
 // Helper function to generate random latitude and longitude coordinates
 function generateRandomCoordinates() {
-  const minLat = -90;
-  const maxLat = 90;
+  const minLat = -80; // Adjust the latitude range as needed
+  const maxLat = 80; // Adjust the latitude range as needed
   const minLng = -180;
   const maxLng = 180;
   const latitude = Math.random() * (maxLat - minLat) + minLat;
@@ -75,8 +71,6 @@ wss.on("connection", (ws) => {
 
   ws.on("message", (message) => {
     const parsedMessage = JSON.parse(message);
-
-    console.log("Received message from client:", parsedMessage);
 
     if (parsedMessage.type === "move_thanos") {
       const stoneId = parsedMessage.data;
@@ -120,9 +114,23 @@ wss.on("connection", (ws) => {
         const newLocation = generateRandomCoordinates();
         changeThanosLocation(newLocation.latitude, newLocation.longitude);
         clearUpdateInterval = setInterval(updateCharacterLocations, 3000);
-      }, 5000);
+      }, 10000);
 
       changeThanosLocation(nearLocation.latitude, nearLocation.longitude);
+    }
+
+    if (parsedMessage.type === "attack_thanos") {
+      // send attack to all clients
+      wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(
+            JSON.stringify({
+              type: "attack_thanos",
+              data: parsedMessage.data,
+            })
+          );
+        }
+      });
     }
   });
 
@@ -191,7 +199,7 @@ app.get("/avengers", (req, res) => {
     .then((characters) => {
       // Store character data in global variable
       console.log("Fetched Avengers characters");
-      characterData.push(...characters);
+      characterData = characters;
       res.json(characters);
     })
     .catch((error) => {
@@ -210,11 +218,15 @@ function sendCharacterLocations() {
 }
 
 function getNearbyLocation(latitude, longitude) {
-  // move 0.1 degree in a random direction
+  const minLatitude = -80; // Adjust the latitude range as needed
+  const maxLatitude = 80; // Adjust the latitude range as needed
   const randomDirection = Math.random() * 2 * Math.PI;
   const randomDistance = 50;
-  const newLatitude =
-    latitude + randomDistance * Math.cos(randomDirection) * 0.1;
+
+  // Calculate the new latitude and limit it within the range
+  let newLatitude = latitude + randomDistance * Math.cos(randomDirection) * 0.1;
+  newLatitude = Math.max(minLatitude, Math.min(maxLatitude, newLatitude));
+
   const newLongitude =
     longitude + randomDistance * Math.sin(randomDirection) * 0.1;
   return { latitude: newLatitude, longitude: newLongitude };
@@ -241,7 +253,7 @@ function updateCharacterLocations() {
 }
 
 app.get("/", (_, res) => {
-  res.send("Hello World!");
+  res.sendFile(__dirname + "/public/index.html");
 });
 
 // Start the server

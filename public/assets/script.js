@@ -16,6 +16,8 @@ async function loadData() {
 
   fillAvengersContent(avengersData);
 
+  fillFocusContent([...avengersData, ...stonesData]);
+
   avengersData.forEach((avenger) => {
     plotMarker(
       avenger.location.latitude,
@@ -39,6 +41,9 @@ async function loadData() {
       const moveThanos = document.getElementById("move-thanos");
       moveThanos.disabled = false;
     },
+    attack_thanos: (data) => {
+      sendMissile(data);
+    },
   });
 }
 
@@ -46,6 +51,25 @@ function bindActions() {
   const moveThanos = document.getElementById("move-thanos");
   moveThanos.addEventListener("click", () => {
     overlayManager.openPopup("move-thanos");
+  });
+
+  // attack thanos
+  const attackThanos = document.getElementById("attack-thanos");
+  attackThanos.addEventListener("click", () => {
+    // disable the button
+    attackThanos.disabled = true;
+    // send the attack to server
+    attackThanosServer();
+    // enable the button after 5 seconds
+    setTimeout(() => {
+      attackThanos.disabled = false;
+    }, 3000);
+  });
+
+  // locate btn
+  const locateBtn = document.getElementById("locate");
+  locateBtn.addEventListener("click", () => {
+    overlayManager.openPopup("focus");
   });
 }
 
@@ -56,21 +80,21 @@ function fillStonesContent(stonesData) {
     const stoneElement = document.createElement("div");
     stoneElement.classList.add(
       "flex",
-      "p-3",
       "rounded-md",
       "items-center",
       "cursor-pointer",
       "hover:scale-110",
       "bg-slate-200",
       "space-x-5",
-      "transition-all"
+      "transition-all",
+      "relative"
     );
     stoneElement.innerHTML = `
-      <img src="${stone.image}" class="-m-3 rounded-l-md w-20 aspect-square object-cover" alt="${stone.name}" />
-      <div class="grow">
+      <img src="${stone.image}" class=" rounded-l-md w-20 aspect-square object-cover" alt="${stone.name}" />
+      <div class="grow p-3">
         <div class="flex items-center justify-between gap-2">
           <p class="text-base">${stone.name}</p>
-          <p class="text-xs p-1 bg-gray-900 text-gray-100 w-fit -mr-3 -mt-9 rounded-none rounded-tr-md">${stone.owner}</p>
+          <p class="text-xs p-1 bg-gray-900 text-gray-100 w-fit absolute right-0 top-0 rounded-none rounded-tr-md">${stone.owner}</p>
         </div>
         <p class="text-sm text-slate-600">${stone.power}</p>
       </div>
@@ -89,23 +113,9 @@ function fillAvengersContent(avengersData, skipThanos = true) {
 
   avengersData.forEach((avenger) => {
     if (avenger.name === "Thanos" && skipThanos) return;
-    const avengerElement = document.createElement("div");
-    avengerElement.classList.add(
-      "rounded-md",
-      "items-center",
-      "cursor-pointer",
-      "hover:scale-110",
-      "bg-gray-900",
-      "space-y-1",
-      "transition-all",
-      "w-[200px]"
-    );
-    avengerElement.innerHTML = `
-      <img src="${avenger.thumbnail}" class="rounded-t-md m-auto aspect-square object-cover" alt="${avenger.name}" />
-      <p class="text-base p-1 text-center text-white">${avenger.name}</p>
-    `;
-    avengersContent.appendChild(avengerElement);
+    let avengerElement = getAvengerBox(avenger);
 
+    avengersContent.appendChild(avengerElement);
     avengerElement.addEventListener("click", () => {
       myCharacter = avenger.name;
       updateMarkerClass(myCharacter);
@@ -113,6 +123,44 @@ function fillAvengersContent(avengersData, skipThanos = true) {
       overlayManager.closePopup();
     });
   });
+}
+
+function fillFocusContent(avengersData) {
+  const avengersContent = document.getElementById("content-focus-popup");
+
+  avengersData.forEach((avenger) => {
+    let avengerElement = getAvengerBox(avenger);
+
+    avengersContent.appendChild(avengerElement);
+    avengerElement.addEventListener("click", () => {
+      zoomToCharacter(avenger.name);
+      overlayManager.closePopup();
+    });
+  });
+}
+
+function getAvengerBox(avenger) {
+  const avengerElement = document.createElement("div");
+  avengerElement.classList.add(
+    "rounded-md",
+    "items-center",
+    "cursor-pointer",
+    "hover:scale-110",
+    "bg-gray-900",
+    "space-y-1",
+    "transition-all",
+    "w-[200px]",
+    "grow"
+  );
+  avengerElement.innerHTML = `
+      <img src="${
+        avenger.thumbnail || avenger.image
+      }" class="rounded-t-md m-auto w-32 aspect-square object-cover" alt="${
+    avenger.name
+  }" />
+      <p class="text-base p-1 text-center text-white">${avenger.name}</p>
+    `;
+  return avengerElement;
 }
 
 loadData();

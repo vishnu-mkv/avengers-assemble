@@ -1,4 +1,4 @@
-.leaflet-marker-icon {
+.custom-marker {
   padding: 0.25em !important;
   border-radius: 50%;
   background: #fff;
@@ -15,4 +15,8 @@ button:disabled {
 
 .thanos {
   background-color: #f44336;
+}
+
+.stone {
+  background-color: #8402ed;
 }

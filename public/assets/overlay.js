@@ -23,6 +23,17 @@ const overlayManager = {
       },
       closeBtnId: "close-avengers-popup",
     },
+    focus: {
+      close: () => {
+        const overlay = document.getElementById("focus-popup");
+        overlay.classList.add("hidden");
+      },
+      open: () => {
+        const overlay = document.getElementById("focus-popup");
+        overlay.classList.remove("hidden");
+      },
+      closeBtnId: "close-focus-popup",
+    },
   },
   closePopup() {
     // close #overlay

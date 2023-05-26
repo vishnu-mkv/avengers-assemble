@@ -6,10 +6,10 @@
     "owner": "The Tesseract",
     "location": {
       "name": "Odin's Vault",
-      "latitude": 38.8977,
-      "longitude": -77.0365
+      "latitude": -62.3388036,
+      "longitude": -62.3388036
     },
-    "image": "/images/s1.png"
+    "image": "/images/s3.png"
   },
   {
     "name": "Mind Stone",
@@ -18,10 +18,10 @@
     "owner": "Vision",
     "location": {
       "name": "Wakanda",
-      "latitude": -1.9439,
-      "longitude": 29.8739
+      "latitude": 76.7604301,
+      "longitude": -54.5812361
     },
-    "image": "/images/s2.png"
+    "image": "/images/s4.png"
   },
   {
     "name": "Reality Stone",
@@ -30,10 +30,10 @@
     "owner": "Malekith",
     "location": {
       "name": "Knowhere",
-      "latitude": 32.7157,
-      "longitude": -117.1611
+      "latitude": 44.8843544,
+      "longitude": 82.764644
     },
-    "image": "/images/s3.png"
+    "image": "/images/s5.png"
   },
   {
     "name": "Power Stone",
@@ -42,10 +42,10 @@
     "owner": "Nova Corps",
     "location": {
       "name": "Morag",
-      "latitude": -14.6606,
-      "longitude": -75.5682
+      "latitude": 51.5074,
+      "longitude": -0.1278
     },
-    "image": "/images/s4.png"
+    "image": "/images/s2.png"
   },
   {
     "name": "Time Stone",
@@ -54,10 +54,10 @@
     "owner": "Doctor Strange",
     "location": {
       "name": "Kamar-Taj",
-      "latitude": 28.6139,
-      "longitude": 77.209
+      "latitude": -33.8688,
+      "longitude": 151.2093
     },
-    "image": "/images/s5.png"
+    "image": "/images/s1.png"
   },
   {
     "name": "Soul Stone",
@@ -66,8 +66,8 @@
     "owner": "Red Skull",
     "location": {
       "name": "Vormir",
-      "latitude": -41.1189,
-      "longitude": -71.314
+      "latitude": 57.630088,
+      "longitude": -177.7037756
     },
     "image": "/images/s6.png"
   }

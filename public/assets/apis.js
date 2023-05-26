@@ -1,5 +1,7 @@
-const SERVER_URL = "http://localhost:3001";
-const WebSocketURL = "ws://localhost:3001/socket.io/";
+const SERVER_URL = window.location.origin;
+const WebSocketURL = `wss://${
+  window.location.origin.split("//")[1]
+}/socket.io/`;
 const socket = new WebSocket(WebSocketURL);
 
 const getStones = async () => (await axios.get(`${SERVER_URL}/stones`)).data;
@@ -34,6 +36,15 @@ const moveThanosToStone = (stone = "Mind Stone") => {
     JSON.stringify({
       type: "move_thanos",
       data: stone,
+    })
+  );
+};
+
+const attackThanosServer = () => {
+  socket.send(
+    JSON.stringify({
+      type: "attack_thanos",
+      data: myCharacter,
     })
   );
 };
