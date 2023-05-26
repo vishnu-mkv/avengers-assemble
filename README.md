@@ -80,4 +80,4 @@ These images showcase different screenshots from the Avengers Game. Each image r
 
 ## License
 
-The Avengers Game is released under the [MIT License](). Feel free to modify and distribute the project according to the terms of the license.
+The Avengers Game is released under the [MIT License](License.md). Feel free to modify and distribute the project according to the terms of the license.
