@@ -1,7 +1,7 @@
 const SERVER_URL = window.location.origin + "/api";
 const WebSocketURL = `wss://${
   window.location.origin.split("//")[1]
-}/socket.io/`;
+}/api/socket.io/`;
 const socket = new WebSocket(WebSocketURL);
 
 const getStones = async () => (await axios.get(`${SERVER_URL}/stones`)).data;
