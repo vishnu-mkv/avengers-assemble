@@ -269,3 +269,5 @@ server.on("upgrade", (request, socket, head) => {
     wss.emit("connection", ws, request);
   });
 });
+
+module.exports = app;
