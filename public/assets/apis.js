@@ -1,4 +1,4 @@
-const SERVER_URL = window.location.origin;
+const SERVER_URL = window.location.origin + "/api";
 const WebSocketURL = `wss://${
   window.location.origin.split("//")[1]
 }/socket.io/`;

@@ -1,4 +1,15 @@
-const app = require("./api");
+require("dotenv").config();
+
+const router = require("./api");
+const express = require("express");
+const cors = require("cors");
+
+const app = express();
+app.use(express.static("public"));
+
+app.use(cors({ origin: "*" }));
+
+app.use("/api", router);
 
 const PORT = process.env.PORT || 3000;
 
@@ -9,8 +20,8 @@ const server = app.listen(PORT, () => {
 
 // Upgrade HTTP server to WebSocket server
 server.on("upgrade", (request, socket, head) => {
-  app.wss.handleUpgrade(request, socket, head, (ws) => {
-    app.wss.emit("connection", ws, request);
+  router.wss.handleUpgrade(request, socket, head, (ws) => {
+    router.wss.emit("connection", ws, request);
   });
 });
 

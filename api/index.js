@@ -1,13 +1,8 @@
-require("dotenv").config();
-
 const express = require("express");
-const cors = require("cors");
 const MarvelClient = require("marvel");
 const WebSocket = require("ws");
 
-const app = express();
-app.use(cors({ origin: "*" }));
-app.use(express.static("public"));
+const app = express.Router();
 
 // Stone data from JSON
 const stonesData = require("./stones.json");
